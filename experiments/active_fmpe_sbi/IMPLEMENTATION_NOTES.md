@@ -131,7 +131,7 @@ and reports:
 Default output path:
 
 ```text
-experiments/results/approach_4_2_fmpe_quality_check/
+experiments/results/approach_1_2_fmpe_quality_check/
 ```
 
 This separates the posterior-estimator quality question from the active-design question.

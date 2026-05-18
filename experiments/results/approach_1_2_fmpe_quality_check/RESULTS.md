@@ -1,4 +1,4 @@
-# Approach 4.2 FMPE Quality Check Results
+# Approach 1.2 FMPE Quality Check Results
 
 This diagnostic evaluates posterior estimators under random simulation design only.
 It does not use BO, so it tests whether FMPE is good enough before active design is judged.

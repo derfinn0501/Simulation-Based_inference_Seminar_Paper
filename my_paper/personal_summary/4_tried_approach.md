@@ -559,7 +559,7 @@ posterior predictive error
 The result folder is:
 
 ```text
-experiments/results/approach_4_2_fmpe_quality_check/
+experiments/results/approach_1_2_fmpe_quality_check/
 ```
 
 Run command used:
@@ -571,7 +571,7 @@ Run command used:
   --validation 90 \
   --repeats 2 \
   --seed 515 \
-  --output-dir experiments/results/approach_4_2_fmpe_quality_check
+  --output-dir experiments/results/approach_1_2_fmpe_quality_check
 ```
 
 Main output files:

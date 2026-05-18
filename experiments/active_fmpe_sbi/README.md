@@ -125,7 +125,7 @@ Before interpreting BO-vs-random results, evaluate whether FMPE itself is good u
   --validation 90 \
   --repeats 2 \
   --seed 515 \
-  --output-dir experiments/results/approach_4_2_fmpe_quality_check
+  --output-dir experiments/results/approach_1_2_fmpe_quality_check
 ```
 
 This diagnostic compares:
@@ -156,6 +156,6 @@ experiments/results/
 with approach-named subfolders such as:
 
 ```text
-approach_4_1_active_design_snapshot/
-approach_4_2_fmpe_quality_check/
+approach_1_1_active_design_snapshot/
+approach_1_2_fmpe_quality_check/
 ```

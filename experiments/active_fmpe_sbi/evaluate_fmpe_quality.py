@@ -341,7 +341,7 @@ def write_markdown_summary(path: Path, summary_rows: list[dict[str, float | int 
         ]
 
     lines = [
-        "# Approach 4.2 FMPE Quality Check Results",
+        "# Approach 1.2 FMPE Quality Check Results",
         "",
         "This diagnostic evaluates posterior estimators under random simulation design only.",
         "It does not use BO, so it tests whether FMPE is good enough before active design is judged.",
@@ -396,7 +396,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path(__file__).parents[1] / "results" / "approach_4_2_fmpe_quality_check",
+        default=Path(__file__).parents[1] / "results" / "approach_1_2_fmpe_quality_check",
     )
     parser.add_argument("--quick", action="store_true")
     return parser.parse_args()

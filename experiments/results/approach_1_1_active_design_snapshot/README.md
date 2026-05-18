@@ -1,4 +1,4 @@
-# Approach 4.1 Active Design Snapshot
+# Approach 1.1 Active Design Snapshot
 
 This folder copies the existing BO-vs-random active-design outputs from:
 
@@ -15,4 +15,4 @@ outputs_fmpe_full_design_long/
 outputs_fmpe_hard_window/
 ```
 
-These are the pre-diagnostic results used to motivate the standalone FMPE quality check in approach 4.2.
+These are the pre-diagnostic results used to motivate the standalone FMPE quality check in `approach_1_2_fmpe_quality_check`.
