@@ -113,3 +113,49 @@ The later full FMPE implementation should replace the lightweight `RectifiedFMPE
 - the design variable interface,
 - the BO loop,
 - the validation reward.
+
+## Standalone FMPE Quality Diagnostic
+
+Before interpreting BO-vs-random results, evaluate whether FMPE itself is good under random design:
+
+```bash
+.venv/bin/python experiments/active_fmpe_sbi/evaluate_fmpe_quality.py \
+  --design-space hard_window \
+  --budgets 60 100 140 \
+  --validation 90 \
+  --repeats 2 \
+  --seed 515 \
+  --output-dir experiments/results/approach_4_2_fmpe_quality_check
+```
+
+This diagnostic compares:
+
+- prior-mean prediction,
+- the Gaussian NPE-style baseline,
+- the lightweight rectified-flow FMPE estimator.
+
+It writes:
+
+```text
+diagnostics.csv
+summary_by_budget.csv
+fmpe_quality_summary.png
+RESULTS.md
+```
+
+The point is to answer whether FMPE is good enough before judging whether BO improves simulation design.
+
+## Result Folder Convention
+
+Longer-lived results should be stored under:
+
+```text
+experiments/results/
+```
+
+with approach-named subfolders such as:
+
+```text
+approach_4_1_active_design_snapshot/
+approach_4_2_fmpe_quality_check/
+```

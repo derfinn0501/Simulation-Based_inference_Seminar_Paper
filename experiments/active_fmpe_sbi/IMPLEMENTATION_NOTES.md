@@ -100,3 +100,38 @@ v_phi(t, theta, x, psi)
 ```
 
 The simulator, design variables, BO loop, validation reward, and comparison plots can stay the same.
+
+## Standalone FMPE Quality Check
+
+Before evaluating whether BO helps, the current FMPE-style estimator should be evaluated under random design only.
+
+The diagnostic script is:
+
+```text
+evaluate_fmpe_quality.py
+```
+
+It compares:
+
+```text
+prior_mean
+gaussian_npe
+rectified_fmpe
+```
+
+and reports:
+
+- raw RMSE,
+- per-parameter RMSE,
+- prior-range normalized RMSE,
+- prior-std normalized RMSE,
+- coverage error,
+- posterior-mean predictive RMSE.
+
+Default output path:
+
+```text
+experiments/results/approach_4_2_fmpe_quality_check/
+```
+
+This separates the posterior-estimator quality question from the active-design question.

@@ -536,9 +536,15 @@ Until then, the safer wording is:
 
 > The current lightweight FMPE prototype is a functional proof of concept, but not yet strong evidence of high-quality posterior inference.
 
-### Next Diagnostic To Add
+### Implemented Diagnostic
 
-The next concrete diagnostic should evaluate FMPE under random design only and report:
+The concrete diagnostic is now implemented in:
+
+```text
+experiments/active_fmpe_sbi/evaluate_fmpe_quality.py
+```
+
+It evaluates FMPE under random design only and reports:
 
 ```text
 prior-mean RMSE
@@ -550,10 +556,70 @@ coverage error
 posterior predictive error
 ```
 
-This diagnostic should answer:
+The result folder is:
+
+```text
+experiments/results/approach_4_2_fmpe_quality_check/
+```
+
+Run command used:
+
+```bash
+.venv/bin/python experiments/active_fmpe_sbi/evaluate_fmpe_quality.py \
+  --design-space hard_window \
+  --budgets 60 100 140 \
+  --validation 90 \
+  --repeats 2 \
+  --seed 515 \
+  --output-dir experiments/results/approach_4_2_fmpe_quality_check
+```
+
+Main output files:
+
+```text
+diagnostics.csv
+summary_by_budget.csv
+fmpe_quality_summary.png
+RESULTS.md
+```
+
+Final-budget summary at `140` random-design simulator calls:
+
+```text
+prior_mean:
+  range-normalized RMSE: 0.2898
+  prior-std-normalized RMSE: 1.0039
+  coverage error: 0.0139
+  predictive RMSE: 1.0358
+
+gaussian_npe:
+  range-normalized RMSE: 0.2309
+  prior-std-normalized RMSE: 0.7997
+  coverage error: 0.1426
+  predictive RMSE: 0.8960
+
+rectified_fmpe:
+  range-normalized RMSE: 0.2246
+  prior-std-normalized RMSE: 0.7782
+  coverage error: 0.2787
+  predictive RMSE: 0.8065
+```
+
+Current interpretation:
+
+> FMPE is better than trivial and competitive on point-estimate quality, but not yet well calibrated.
+
+The diagnostic answers:
 
 ```text
 Is FMPE good enough before adding BO?
+```
+
+with:
+
+```text
+partly yes for point estimates,
+not yet for posterior calibration.
 ```
 
 ## Next Tried Approach To Record
