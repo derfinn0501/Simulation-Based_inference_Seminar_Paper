@@ -1,6 +1,6 @@
 # Implementation Notes
 
-This prototype follows the project documentation in `my_paper/meta/research_guide_BO_FMPE.md` and `my_paper/personal_summary/3_possible_contribution_BO.md`.
+This prototype follows the project documentation in `my_paper/meta/research_guide_BO_FMPE.md` and `my_paper/personal_summary/3_contribution/3_possible_contribution_BO.md`.
 
 ## Current Scope
 
@@ -135,3 +135,58 @@ experiments/results/approach_1_2_fmpe_quality_check/
 ```
 
 This separates the posterior-estimator quality question from the active-design question.
+
+## Four-Method Suitability Check
+
+The broader diagnostic script is:
+
+```text
+evaluate_four_method_suitability.py
+```
+
+It compares:
+
+```text
+prior_mean
+abc_knn
+gaussian_npe
+rectified_fmpe
+```
+
+across simulation budgets.
+
+The new non-neural baseline is `abc_knn`: for each validation observation, it finds the nearest simulated observations in standardized `(x, psi)` feature space and treats their `theta` values as posterior samples.
+
+The script writes rows live to:
+
+```text
+diagnostics.csv
+```
+
+after each completed `method x budget x replicate` unit. This makes long runs interrupt-safe and restartable.
+
+It also writes the generated synthetic datasets to:
+
+```text
+simulated_data/replicate_*/
+```
+
+Each replicate stores:
+
+```text
+train_full.npz
+train_full.csv
+validation.npz
+validation.csv
+metadata.json
+```
+
+For every budget, `gaussian_npe` and `rectified_fmpe` are trained on the first `N` rows of `train_full`.
+
+Default output path:
+
+```text
+experiments/results/approach_1_3_four_method_suitability_check/
+```
+
+This diagnostic asks whether the simulator setting is learnable and whether simple methods outperform the neural estimators.

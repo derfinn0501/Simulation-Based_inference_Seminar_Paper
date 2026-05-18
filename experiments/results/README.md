@@ -15,8 +15,11 @@ Current folders:
 ```text
 approach_1_1_active_design_snapshot/
 approach_1_2_fmpe_quality_check/
+approach_1_3_four_method_suitability_check/
 ```
 
 `approach_1_1_active_design_snapshot` keeps the earlier BO-vs-random active-design outputs.
 
 `approach_1_2_fmpe_quality_check` is for standalone FMPE diagnostics under random design. It asks whether FMPE is good enough before BO is evaluated.
+
+`approach_1_3_four_method_suitability_check` compares `prior_mean`, `abc_knn`, `gaussian_npe`, and `rectified_fmpe` across simulation budgets to test whether the simulator setting is suitable for neural posterior estimators.

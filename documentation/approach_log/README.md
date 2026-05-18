@@ -1,14 +1,40 @@
-# 4 Tried Approach: BO-Guided Simulation Design For FMPE-SBI
+# 4 Approach Log: BO-Guided Simulation Design For FMPE-SBI
 
 ## Purpose Of This File
 
 This file records the stepwise evolution of the project approach.
 
+The number `4` is the section number in the overall workflow:
+
+```text
+1 -> Practical Guide summaries
+2 -> FMPE summaries
+3 -> contribution idea
+4 -> approach log
+```
+
+Inside this section, approaches use their own numbering starting at `1.1`:
+
+```text
+Approach 1.1
+Approach 1.2
+Approach 1.3
+...
+```
+
+This internal numbering matches the result-folder convention:
+
+```text
+experiments/results/approach_1_1_*/
+experiments/results/approach_1_2_*/
+```
+
 The earlier notes establish the background and contribution:
 
 - `1_*`: practical SBI foundations,
 - `2_*`: FMPE and vector-field posterior estimation,
-- `3_*`: possible contribution using BO-guided simulation design.
+- `3_*`: possible contribution using BO-guided simulation design,
+- `4_*`: tried approaches, diagnostics, and decisions.
 
 This file should track what was actually tried. Each entry should make clear:
 
@@ -92,7 +118,7 @@ This avoids turning BO into direct parameter optimization. The posterior target 
 theta ~ p(theta)
 ```
 
-## Approach 4.1: Lotka-Volterra Active Design Prototype
+## Approach 1.1: Lotka-Volterra Active Design Prototype
 
 ### Why This Was Tried
 
@@ -415,7 +441,7 @@ The current approach still has several limitations:
 - The current validation setup is synthetic and does not yet test a fixed real observation `x_o`.
 - Calibration diagnostics are still simple coverage proxies.
 
-## Approach 4.2: Standalone FMPE Quality Check
+## Approach 1.2: Standalone FMPE Quality Check
 
 Date: 2026-05-18
 
@@ -622,9 +648,282 @@ partly yes for point estimates,
 not yet for posterior calibration.
 ```
 
+## Approach 1.3: Four-Method Suitability Check
+
+Date: 2026-05-18
+
+Status: implemented and smoke-tested.
+
+### Goal
+
+The next diagnostic should test whether the current Lotka-Volterra simulation setting is suitable for more complicated neural posterior estimators at all.
+
+The comparison should include:
+
+```text
+prior_mean
+abc_knn
+gaussian_npe
+rectified_fmpe
+```
+
+Implementation:
+
+```text
+experiments/active_fmpe_sbi/evaluate_four_method_suitability.py
+```
+
+Result folder:
+
+```text
+experiments/results/approach_1_3_four_method_suitability_check/
+```
+
+The main question is:
+
+> Do simple non-neural methods already solve this setting better than the neural models?
+
+If simple methods outperform the NN-based methods, that does not necessarily make the setting useless. It can instead become a controlled training environment for calibrating and understanding the more complex models.
+
+### Working Hypothesis
+
+With enough simulations, enough training, and good calibration, the complex models should at least approach the simple baselines.
+
+Expected useful outcomes:
+
+- If `abc_knn` performs well, the simulator contains usable posterior information.
+- If `gaussian_npe` performs well but `fmpe` does not, the FMPE implementation or calibration needs work.
+- If all methods remain close to `prior_mean`, the simulation setting is probably not informative enough.
+- If FMPE has good RMSE but poor coverage, the issue is posterior uncertainty rather than point estimation.
+
+### Budget Sweep
+
+Use multiple simulation budgets instead of one fixed budget:
+
+```text
+100
+250
+500
+1000
+2000
+```
+
+Start smaller if runtime is too high:
+
+```text
+100
+250
+500
+1000
+```
+
+The budget curve is important because `abc_knn` needs enough simulations to form meaningful local neighborhoods, while neural methods may need enough data and training time to become stable.
+
+### Interrupt-Safe Result Writing
+
+The experiment writes results live, one completed unit at a time.
+
+Recommended unit:
+
+```text
+method x budget x replicate
+```
+
+After each unit, append to:
+
+```text
+diagnostics.csv
+```
+
+and flush the file. This makes the run restartable: if it is interrupted, already completed rows remain usable.
+
+The script skips completed rows when restarted, based on:
+
+```text
+method
+budget
+replicate
+seed
+design_space
+```
+
+### Parallelization
+
+The experiment can be parallelized because many units are independent.
+
+Safe parallel options:
+
+- parallelize over replicates,
+- parallelize over methods within a budget,
+- parallelize over `(method, budget, replicate)` jobs.
+
+However, multiple workers should not write to the same CSV at the same time unless a safe writer/lock is used.
+
+Simpler robust design:
+
+```text
+each worker writes its own small result file
+main process merges results into diagnostics.csv
+```
+
+or:
+
+```text
+workers return results
+main process is the only writer
+```
+
+The first implementation uses a sequential interrupt-safe writer. Parallelization can be added once the metric logic is stable.
+
+### Evaluation
+
+All four methods should be evaluated on the same validation observations and same training data for each budget.
+
+Core metrics:
+
+```text
+posterior mean RMSE
+per-parameter RMSE
+prior-range-normalized RMSE
+prior-std-normalized RMSE
+coverage error
+posterior predictive RMSE
+```
+
+For lower-is-better metrics, the ideal error pattern would be:
+
+```text
+prior_mean > abc_knn > gaussian_npe > rectified_fmpe
+```
+
+or whether simpler methods remain stronger than the NN-based models.
+
+The goal is not only to pick the best method, but to decide whether this simulator is a good calibration and debugging environment for the complex models.
+
+### Quick Smoke Test
+
+Command:
+
+```bash
+.venv/bin/python experiments/active_fmpe_sbi/evaluate_four_method_suitability.py --quick --force
+```
+
+Smoke-test configuration:
+
+```text
+design_space = hard_window
+budgets = 40 70
+validation = 40
+repeats = 1
+seed = 616
+```
+
+Final-budget summary at `70` simulator calls:
+
+```text
+prior_mean:
+  range-normalized RMSE: 0.2822
+  prior-std-normalized RMSE: 0.9777
+  coverage error: 0.0208
+  predictive RMSE: 0.9588
+
+abc_knn:
+  range-normalized RMSE: 0.2251
+  prior-std-normalized RMSE: 0.7797
+  coverage error: 0.0479
+  predictive RMSE: 0.8051
+
+gaussian_npe:
+  range-normalized RMSE: 0.2455
+  prior-std-normalized RMSE: 0.8503
+  coverage error: 0.3188
+  predictive RMSE: 0.9266
+
+rectified_fmpe:
+  range-normalized RMSE: 0.2560
+  prior-std-normalized RMSE: 0.8869
+  coverage error: 0.3521
+  predictive RMSE: 0.9336
+```
+
+Smoke-test interpretation:
+
+> ABC-kNN is strongest in the tiny smoke test. This suggests the simulator setting contains learnable local information, while the NN-based methods need more data, better training-budget allocation, or calibration work before they can be trusted.
+
+This smoke test only verifies implementation and output structure. It should not be treated as the full scientific result.
+
+### Larger Default Run
+
+Command:
+
+```bash
+.venv/bin/python experiments/active_fmpe_sbi/evaluate_four_method_suitability.py --force
+```
+
+Configuration:
+
+```text
+design_space = hard_window
+budgets = 100 250 500 1000
+validation = 200
+repeats = 3
+seed = 616
+abc_k = sqrt(N), clipped to [10, 100]
+flow_samples_per_pair = 4
+posterior_samples = 48
+ode_steps = 12
+fmpe_max_iter = 350
+```
+
+Final-budget summary at `1000` simulator calls:
+
+```text
+prior_mean:
+  range-normalized RMSE: 0.2867
+  prior-std-normalized RMSE: 0.9932
+  coverage error: 0.0106
+  predictive RMSE: 1.0560
+
+abc_knn:
+  range-normalized RMSE: 0.2149
+  prior-std-normalized RMSE: 0.7444
+  coverage error: 0.0250
+  predictive RMSE: 0.8705
+
+gaussian_npe:
+  range-normalized RMSE: 0.1396
+  prior-std-normalized RMSE: 0.4835
+  coverage error: 0.0757
+  predictive RMSE: 0.7685
+
+rectified_fmpe:
+  range-normalized RMSE: 0.1307
+  prior-std-normalized RMSE: 0.4527
+  coverage error: 0.1635
+  predictive RMSE: 0.7277
+```
+
+Observed final-budget ordering by range-normalized RMSE:
+
+```text
+rectified_fmpe < gaussian_npe < abc_knn < prior_mean
+```
+
+Interpretation:
+
+> The simulator setting is learnable. ABC-kNN improves over the prior, which confirms that local simulator neighborhoods contain posterior information. With enough synthetic data, the NN-based methods overtake ABC-kNN on point-estimate and posterior-predictive metrics. Rectified FMPE is strongest at the final budget, but its coverage error remains worse than ABC-kNN and Gaussian NPE, so calibration is still the main weakness.
+
+The exact simulated data used for this run is saved under:
+
+```text
+experiments/results/approach_1_3_four_method_suitability_check/simulated_data/
+```
+
+For each replicate, `train_full` contains the synthetic data that feeds `gaussian_npe` and `rectified_fmpe`. Each simulation budget uses the first `N` rows of that file.
+
 ## Next Tried Approach To Record
 
-The next entry should document one concrete change, not several at once.
+The next entry should use the next internal log number, for example `Approach 1.4`, and document one concrete change, not several at once.
 
 Good candidates:
 

@@ -145,6 +145,41 @@ RESULTS.md
 
 The point is to answer whether FMPE is good enough before judging whether BO improves simulation design.
 
+## Four-Method Suitability Diagnostic
+
+To test whether the simulator setting is suitable for the neural methods at all, run:
+
+```bash
+.venv/bin/python experiments/active_fmpe_sbi/evaluate_four_method_suitability.py \
+  --design-space hard_window \
+  --budgets 100 250 500 1000 \
+  --validation 200 \
+  --repeats 3 \
+  --seed 616 \
+  --output-dir experiments/results/approach_1_3_four_method_suitability_check
+```
+
+This compares:
+
+- `prior_mean`,
+- `abc_knn`,
+- `gaussian_npe`,
+- `rectified_fmpe`.
+
+It writes results live to `diagnostics.csv`, one row per completed `method x budget x replicate` unit, so interrupted runs can be resumed.
+
+It writes:
+
+```text
+diagnostics.csv
+summary_by_budget.csv
+four_method_suitability_summary.png
+RESULTS.md
+simulated_data/replicate_*/
+```
+
+Each `simulated_data/replicate_*` folder contains `train_full.npz`, `train_full.csv`, `validation.npz`, and `validation.csv`. The neural methods use prefixes of `train_full` for each simulation budget.
+
 ## Result Folder Convention
 
 Longer-lived results should be stored under:
@@ -158,4 +193,5 @@ with approach-named subfolders such as:
 ```text
 approach_1_1_active_design_snapshot/
 approach_1_2_fmpe_quality_check/
+approach_1_3_four_method_suitability_check/
 ```
