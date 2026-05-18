@@ -1,0 +1,330 @@
+Research Direction Summary: BO-Guided Synthetic Simulation for Posterior Foundation Models
+Core Vision
+
+Develop a system that learns probabilistic inference over physical systems using synthetic simulations.
+
+The long-term idea is:
+
+generate synthetic data from simulators,
+use Bayesian Optimization (BO) to adaptively improve what simulations are generated,
+train a Simulation-Based Inference (SBI) network,
+eventually scale this into a foundation-model-style inference system for physical environments.
+
+Target domain:
+
+robotics,
+physical systems,
+sim-to-real settings,
+latent physics inference.
+Conceptual Pipeline
+Classical SBI
+
+Simulation-based inference typically assumes:
+
+θ∼p(θ)
+x∼p
+sim
+	​
+
+(x∣θ)
+
+where:
+
+θ: latent parameters,
+x: observed data,
+simulator generates training pairs (θ,x).
+
+A neural network learns:
+
+q
+ϕ
+	​
+
+(θ∣x)≈p(θ∣x)
+Extension: BO-Guided Simulation
+
+Instead of sampling simulator inputs randomly:
+
+θ
+i
+	​
+
+∼p(θ)
+
+Bayesian Optimization adaptively selects simulations:
+
+θ
+i+1
+	​
+
+=arg
+θ
+max
+	​
+
+a(θ)
+
+where:
+
+a(θ): acquisition function,
+measures expected information gain,
+posterior uncertainty,
+expected posterior improvement,
+disagreement,
+or simulator relevance.
+
+Thus:
+
+BO→simulator→(θ,x)→SBI network
+
+BO acts as:
+
+adaptive simulation design.
+
+Simulator Design Extension
+
+Introduce simulator configuration variables:
+
+ψ
+
+Examples:
+
+noise level,
+task difficulty,
+domain randomization,
+environment diversity,
+friction ranges,
+lighting,
+simulator fidelity.
+
+Now:
+
+x∼p
+sim
+	​
+
+(x∣θ,ψ)
+
+BO can optimize:
+
+parameter locations θ,
+simulator configurations ψ,
+or both.
+
+This turns synthetic data generation into an optimization problem.
+
+Long-Term Goal
+
+Train a foundation-model-like inference system:
+
+q
+ϕ
+	​
+
+(θ∣x,C)
+
+where:
+
+x: observation,
+C: simulation context/history/tasks,
+output is a posterior distribution over latent physical variables.
+
+Potential latent variables:
+
+friction,
+mass,
+damping,
+hidden environment parameters,
+robot dynamics,
+uncertainty estimates,
+contact dynamics.
+
+Goal:
+
+probabilistic world understanding.
+
+Why Robotics / Physical Systems
+
+Physical systems are attractive because:
+
+simulators encode meaningful structure,
+latent parameters are interpretable,
+uncertainty matters,
+sim-to-real transfer is difficult,
+real-world data is expensive.
+
+This makes:
+
+SBI,
+BO,
+synthetic data,
+uncertainty estimation,
+and foundation models
+
+naturally compatible.
+
+Connection Between Fields
+
+The project sits at the intersection of:
+
+Field	Role
+SBI	learns posterior inference
+BO	adaptively selects simulations
+Synthetic Data	creates scalable training distributions
+ICL / PFNs	amortized Bayesian behavior
+Robotics	structured physical world
+Foundation Models	generalizable inference systems
+Current Research Directions Related to This
+Existing Relevant Areas
+Foundation Models for Bayesian Inference
+PFNs / TabPFN
+amortized Bayesian inference
+in-context Bayesian reasoning
+Simulation-Efficient SBI
+adaptive simulation selection
+active SBI
+sequential SBI
+Simulator Calibration
+sim-to-real correction
+posterior inference over simulator parameters
+BO in Robotics
+controller optimization
+data-efficient robot learning
+World Models
+physical reasoning
+latent dynamics models
+synthetic pretraining
+Important Insight
+
+The simulator itself becomes a central research object.
+
+Main issue:
+
+p
+sim
+	​
+
+(x∣θ)
+
+=p
+real
+	​
+
+(x∣θ)
+
+Therefore:
+
+simulator calibration,
+adaptive domain randomization,
+and synthetic-data optimization
+
+become crucial.
+
+Proposed Initial Research Question
+
+Can Bayesian Optimization improve simulation efficiency and posterior quality in Simulation-Based Inference by adaptively selecting simulator parameters and synthetic data distributions?
+
+Suggested Initial Formalization
+Simulator
+x∼p
+sim
+	​
+
+(x∣θ,ψ)
+Posterior Network
+q
+ϕ
+	​
+
+(θ∣x)
+BO Objective
+θ
+t+1
+	​
+
+=arg
+θ
+max
+	​
+
+a(θ;D
+t
+	​
+
+)
+
+or
+
+ψ
+t+1
+	​
+
+=arg
+ψ
+max
+	​
+
+a(ψ;D
+t
+	​
+
+)
+Suggested Initial Datasets / Simulators
+Easy / SBI Benchmarks
+Two Moons
+SLCP
+Lotka–Volterra
+SIR
+Physics Systems
+Pendulum
+CartPole
+MuJoCo toy systems
+Robotics / Sim-to-Real
+BayesSim
+Isaac Gym
+SIPE benchmarks
+Suggested Evaluation Metrics
+Posterior Quality
+C2ST
+MMD
+KL divergence
+posterior calibration
+coverage
+Simulation Efficiency
+posterior quality per simulator call
+convergence speed
+Robustness
+performance under simulator misspecification
+sim-to-real transfer
+Suggested First Prototype
+Minimal Viable Research Project
+Goal
+
+BO-guided SBI on standard SBI benchmarks.
+
+Compare
+random prior sampling,
+sequential SBI,
+BO-guided simulation selection.
+Datasets
+SLCP,
+Lotka–Volterra,
+SIR.
+Main Metric
+
+Posterior quality under fixed simulation budget.
+
+Long-Term Vision
+
+Eventually scale toward:
+
+posterior foundation models for physical world understanding.
+
+Potential future capabilities:
+
+latent physics inference,
+uncertainty-aware robotics,
+adaptive synthetic world generation,
+active simulation learning,
+physically grounded foundation models,
+probabilistic world models.
