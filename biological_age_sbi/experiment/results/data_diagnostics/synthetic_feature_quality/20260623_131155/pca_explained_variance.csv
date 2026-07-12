@@ -1,0 +1,5 @@
+feature_set_name,pc1_explained_variance_ratio,pc2_explained_variance_ratio,fit_note
+set_a_easy_non_lab,0.36646220943122887,0.28425410311169313,PCA fitted on combined standardized synthetic + real features.
+set_b_non_lab_diagnosis,0.19846479315097554,0.16320984601261704,PCA fitted on combined standardized synthetic + real features.
+set_c_extended_non_lab_diagnosis,0.1707691411527475,0.13443524624849,PCA fitted on combined standardized synthetic + real features.
+set_d_lab_enriched,0.12316984384992674,0.10062524688177839,PCA fitted on combined standardized synthetic + real features.

@@ -1,0 +1,119 @@
+{
+  "dataset": "NHANES 2017-March 2020 Pre-Pandemic",
+  "source_base_url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/{name}.XPT",
+  "files": {
+    "P_DEMO": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_DEMO.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_DEMO.XPT",
+      "selected_columns": [
+        "SEQN",
+        "RIDAGEYR",
+        "RIAGENDR"
+      ]
+    },
+    "P_BMX": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_BMX.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_BMX.XPT",
+      "selected_columns": [
+        "SEQN",
+        "BMXBMI"
+      ]
+    },
+    "P_BPXO": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_BPXO.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_BPXO.XPT",
+      "selected_columns": [
+        "SEQN",
+        "BPXOSY1",
+        "BPXOSY2",
+        "BPXOSY3"
+      ]
+    },
+    "P_BIOPRO": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_BIOPRO.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_BIOPRO.XPT",
+      "selected_columns": [
+        "SEQN",
+        "LBXSCH",
+        "LBXSTR",
+        "LBXSCR",
+        "LBXSBU"
+      ]
+    },
+    "P_CBC": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_CBC.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_CBC.XPT",
+      "selected_columns": [
+        "SEQN",
+        "LBXPLTSI"
+      ]
+    },
+    "P_HSCRP": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_HSCRP.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_HSCRP.XPT",
+      "selected_columns": [
+        "SEQN",
+        "LBXHSCRP"
+      ]
+    },
+    "P_GHB": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_GHB.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_GHB.XPT",
+      "selected_columns": [
+        "SEQN",
+        "LBXGH"
+      ]
+    },
+    "P_BPQ": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_BPQ.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_BPQ.XPT",
+      "selected_columns": [
+        "SEQN",
+        "BPQ020",
+        "BPQ080"
+      ]
+    },
+    "P_DIQ": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_DIQ.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_DIQ.XPT",
+      "selected_columns": [
+        "SEQN",
+        "DIQ010"
+      ]
+    },
+    "P_MCQ": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_MCQ.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_MCQ.XPT",
+      "selected_columns": [
+        "SEQN",
+        "MCQ160A",
+        "MCQ160B",
+        "MCQ160C",
+        "MCQ160D",
+        "MCQ160E",
+        "MCQ160F",
+        "MCQ220"
+      ]
+    },
+    "P_SMQ": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_SMQ.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_SMQ.XPT",
+      "selected_columns": [
+        "SEQN",
+        "SMQ020"
+      ]
+    },
+    "P_ALQ": {
+      "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_ALQ.XPT",
+      "local_path": "/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/data/raw/nhanes_2017_2020/P_ALQ.XPT",
+      "selected_columns": [
+        "SEQN",
+        "ALQ111"
+      ]
+    }
+  },
+  "notes": [
+    "Files are official CDC NHANES SAS transport files.",
+    "The harmonized KDM8 target is computed downstream from selected biomarkers."
+  ]
+}

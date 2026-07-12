@@ -1,0 +1,22 @@
+{
+  "replicate": 1,
+  "seed": 10717,
+  "design_space": "wide_window",
+  "budgets": [
+    80,
+    180,
+    230,
+    500,
+    1000,
+    2000,
+    3000,
+    5000
+  ],
+  "max_budget": 5000,
+  "validation": 100,
+  "n_obs": 10,
+  "noise_std": 0.06,
+  "train_rows": 5000,
+  "validation_rows": 100,
+  "notes": "Each training budget uses the first N rows of train_full."
+}

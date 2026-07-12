@@ -1,0 +1,133 @@
+# Synthetic-Real Feature Quality Diagnostic
+
+Generated: 2026-06-23T12:28:23
+Output directory: `/home/finn/Documents/1-projects/2026-seminar/biological_age_sbi/experiment/results/data/diagnostic/feature_quality/20260623_122719`
+
+## 1. Executive Summary
+
+This diagnostic compares simulator-generated observed features against held-out Mendeley observed features for each configured feature set. It combines per-feature mismatch metrics, correlation mismatch, classifier two-sample tests, PCA overlap plots, and saved recovery metrics when available.
+
+Optional diagnostic note:
+- UMAP skipped: ModuleNotFoundError: No module named 'umap'
+
+## 2. Feature-Set Comparison Table
+```text
+                feature_set_name  number_of_features  domain_classifier_auc  domain_classifier_accuracy  domain_classifier_balanced_accuracy  overall_synthetic_recovery_pearson_r  overall_real_recovery_pearson_r  overall_recovery_gap
+              set_a_easy_non_lab                   4               0.721341                    0.661667                             0.661667                              0.740408                         0.458743              0.281665
+         set_b_non_lab_diagnosis                   9               0.718016                    0.658333                             0.658333                              0.773659                         0.474407              0.299252
+set_c_extended_non_lab_diagnosis                  11               0.731114                    0.678889                             0.678889                              0.760922                         0.481707              0.279215
+              set_d_lab_enriched                  18               0.943058                    0.868889                             0.868889                              0.847463                         0.613157              0.234305
+```
+
+## 3. Synthetic-Real Mismatch Summary
+```text
+       feature_set_name comparison_type      feature  absolute_standardized_mean_difference  wasserstein_distance  ks_statistic
+     set_a_easy_non_lab     age_matched        drink                               0.057972              0.028506           NaN
+     set_a_easy_non_lab     age_matched        smoke                               0.027479              0.013434           NaN
+     set_a_easy_non_lab     age_matched          bmi                               0.019853              1.411285      0.162189
+     set_a_easy_non_lab     age_matched          sbp                               0.009585              4.821257      0.100262
+     set_a_easy_non_lab   unconditional        drink                               0.058263              0.028627           NaN
+     set_a_easy_non_lab   unconditional        smoke                               0.030309              0.014796           NaN
+     set_a_easy_non_lab   unconditional          bmi                               0.018699              1.398220      0.161145
+     set_a_easy_non_lab   unconditional          sbp                               0.001856              4.592282      0.094243
+set_b_non_lab_diagnosis     age_matched          cvd                               0.075888              0.024528           NaN
+set_b_non_lab_diagnosis     age_matched        drink                               0.060678              0.029831           NaN
+set_b_non_lab_diagnosis     age_matched        smoke                               0.039291              0.019224           NaN
+set_b_non_lab_diagnosis     age_matched hypertension                               0.031625              0.013921           NaN
+set_b_non_lab_diagnosis     age_matched          koa                               0.021351              0.006629           NaN
+set_b_non_lab_diagnosis     age_matched          sbp                               0.016032              4.778120      0.105071
+set_b_non_lab_diagnosis     age_matched          bmi                               0.013245              1.398405      0.157773
+set_b_non_lab_diagnosis     age_matched    arthritis                               0.011756              0.005635           NaN
+set_b_non_lab_diagnosis     age_matched     diabetes                               0.002749              0.000663           NaN
+set_b_non_lab_diagnosis   unconditional          cvd                               0.081798              0.026375           NaN
+set_b_non_lab_diagnosis   unconditional        drink                               0.060869              0.029913           NaN
+set_b_non_lab_diagnosis   unconditional        smoke                               0.042119              0.020585           NaN
+```
+
+## 4. Classifier Two-Sample Test Results
+```text
+                feature_set_name comparison_type          classifier  roc_auc  accuracy  balanced_accuracy  tn  fp  fn  tp  n_test
+              set_a_easy_non_lab   unconditional logistic_regression 0.492188  0.486667           0.486667 401 499 425 475    1800
+              set_a_easy_non_lab   unconditional       random_forest 0.721341  0.661667           0.661667 665 235 374 526    1800
+              set_a_easy_non_lab     age_matched logistic_regression 0.490973  0.503333           0.503333 376 524 370 530    1800
+              set_a_easy_non_lab     age_matched       random_forest 0.742769  0.676111           0.676111 659 241 342 558    1800
+         set_b_non_lab_diagnosis   unconditional logistic_regression 0.513599  0.508333           0.508333 402 498 387 513    1800
+         set_b_non_lab_diagnosis   unconditional       random_forest 0.718016  0.658333           0.658333 665 235 380 520    1800
+         set_b_non_lab_diagnosis     age_matched logistic_regression 0.529337  0.517222           0.517222 430 470 399 501    1800
+         set_b_non_lab_diagnosis     age_matched       random_forest 0.718307  0.665000           0.665000 653 247 356 544    1800
+set_c_extended_non_lab_diagnosis   unconditional logistic_regression 0.522637  0.508333           0.508333 375 525 360 540    1800
+set_c_extended_non_lab_diagnosis   unconditional       random_forest 0.731114  0.678889           0.678889 699 201 377 523    1800
+set_c_extended_non_lab_diagnosis     age_matched logistic_regression 0.512060  0.497778           0.497778 392 508 396 504    1800
+set_c_extended_non_lab_diagnosis     age_matched       random_forest 0.729514  0.665000           0.665000 671 229 374 526    1800
+              set_d_lab_enriched   unconditional logistic_regression 0.530938  0.513889           0.513889 425 475 400 500    1800
+              set_d_lab_enriched   unconditional       random_forest 0.943058  0.868889           0.868889 777 123 113 787    1800
+              set_d_lab_enriched     age_matched logistic_regression 0.525725  0.515000           0.515000 438 462 411 489    1800
+              set_d_lab_enriched     age_matched       random_forest 0.941752  0.868333           0.868333 769 131 106 794    1800
+```
+
+## 5. Top Features Distinguishing Synthetic From Real
+```text
+                feature_set_name          classifier      feature  importance
+              set_a_easy_non_lab       random_forest          bmi    0.568735
+              set_a_easy_non_lab       random_forest          sbp    0.407453
+              set_a_easy_non_lab logistic_regression          bmi    0.046851
+              set_a_easy_non_lab logistic_regression          sbp    0.033645
+              set_a_easy_non_lab logistic_regression        smoke    0.026845
+         set_b_non_lab_diagnosis       random_forest          bmi    0.554524
+         set_b_non_lab_diagnosis       random_forest          sbp    0.353451
+         set_b_non_lab_diagnosis logistic_regression          cvd    0.102430
+         set_b_non_lab_diagnosis logistic_regression        drink    0.079250
+         set_b_non_lab_diagnosis logistic_regression hypertension    0.035182
+set_c_extended_non_lab_diagnosis       random_forest          bmi    0.553045
+set_c_extended_non_lab_diagnosis       random_forest          sbp    0.332202
+set_c_extended_non_lab_diagnosis logistic_regression          cvd    0.074988
+set_c_extended_non_lab_diagnosis logistic_regression       cancer    0.052624
+set_c_extended_non_lab_diagnosis logistic_regression          sbp    0.049754
+              set_d_lab_enriched       random_forest           tg    0.178745
+              set_d_lab_enriched       random_forest           tc    0.136578
+              set_d_lab_enriched       random_forest          bmi    0.128201
+              set_d_lab_enriched       random_forest          bun    0.121179
+              set_d_lab_enriched logistic_regression          cvd    0.115483
+```
+
+## 6. Parameter Recovery Table
+```text
+          timestamp                       approach_name                      feature_set                                                                                                                   feature_set_description                          simulator_variant  model_version                                 model_family  feature_count  continuous_count  binary_count  batch_count  num_training_sims  num_validation_sims  epochs  batch_size      mlp_widths mlp_norm  mlp_dropout  mlp_residual  training_seed  validation_seed  network_seed  synthetic_eval_seed loss_key  first_train_loss  final_train_loss  min_train_loss  synthetic_r  synthetic_mae  synthetic_rmse  synthetic_mean_error  synthetic_q10_q90_coverage  synthetic_mean_q10_q90_width   real_r  real_mae  real_rmse  real_mean_error  real_q10_q90_coverage  real_mean_q10_q90_width      parameter  synthetic_r_j  real_r_j  recovery_gap_j  good_synthetic_threshold  poor_threshold  acceptable_real_threshold     recovery_category
+2026-06-23T10:33:41 number_of_features_batch_count_grid               set_a_easy_non_lab                                                             Easy non-lab indicators: BMI, systolic blood pressure, smoking, and drinking. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula              4                 2             2            8               1024                 1000     200         128 (512, 512, 256)    layer         0.05          True           1335             1435          1535                 1635     loss          0.614445          0.280214        0.231935     0.761207       5.059421        6.276056             -0.354700                       0.762                     15.292082 0.445352  7.994268  10.091366        -0.152851               0.542940                14.568556 biological_age       0.761207  0.445352        0.315855                       0.7             0.3                        0.5 mixed_or_intermediate
+2026-06-23T10:37:58 number_of_features_batch_count_grid set_c_extended_non_lab_diagnosis                                                                       Extended non-lab diagnosis set: Set B plus dyslipidemia and cancer. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula             11                 2             9            2                256                 1000     300         128 (512, 512, 256)    layer         0.05          True           1340             1440          1540                 1640     loss          1.800914          0.157068        0.121255     0.699311       5.973961        7.507889             -0.390109                       0.528                     10.586223 0.390069  8.737195  11.078950        -0.591737               0.370216                 9.982624 biological_age       0.699311  0.390069        0.309242                       0.7             0.3                        0.5 mixed_or_intermediate
+2026-06-23T10:37:26 number_of_features_batch_count_grid          set_b_non_lab_diagnosis Current non-lab diagnosis-expanded set: BMI, systolic blood pressure, smoking, drinking, hypertension, diabetes, CVD, arthritis, and KOA. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula              9                 2             7           32               4096                 1000     120         128 (512, 512, 256)    layer         0.05          True           1339             1439          1539                 1639     loss          0.426891          0.244534        0.215343     0.773659       4.931353        6.213345              0.221812                       0.746                     14.702398 0.474407  7.949513  10.118188         0.171381               0.545191                14.309263 biological_age       0.773659  0.474407        0.299252                       0.7             0.3                        0.5 mixed_or_intermediate
+2026-06-23T10:35:59 number_of_features_batch_count_grid          set_b_non_lab_diagnosis Current non-lab diagnosis-expanded set: BMI, systolic blood pressure, smoking, drinking, hypertension, diabetes, CVD, arthritis, and KOA. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula              9                 2             7            8               1024                 1000     200         128 (512, 512, 256)    layer         0.05          True           1338             1438          1538                 1638     loss          0.661187          0.278218        0.184365     0.743023       5.187437        6.504370              0.157826                       0.726                     14.168057 0.459307  7.990119  10.124463         0.577819               0.517530                13.970272 biological_age       0.743023  0.459307        0.283716                       0.7             0.3                        0.5 mixed_or_intermediate
+2026-06-23T10:34:45 number_of_features_batch_count_grid               set_a_easy_non_lab                                                             Easy non-lab indicators: BMI, systolic blood pressure, smoking, and drinking. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula              4                 2             2           32               4096                 1000     120         128 (512, 512, 256)    layer         0.05          True           1336             1436          1536                 1636     loss          0.479466          0.301119        0.221177     0.740408       4.966128        6.276011              0.210538                       0.774                     15.628787 0.458743  7.966649  10.135623         0.240992               0.559022                14.913276 biological_age       0.740408  0.458743        0.281665                       0.7             0.3                        0.5 mixed_or_intermediate
+2026-06-23T10:40:12 number_of_features_batch_count_grid set_c_extended_non_lab_diagnosis                                                                       Extended non-lab diagnosis set: Set B plus dyslipidemia and cancer. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula             11                 2             9           32               4096                 1000     120         128 (512, 512, 256)    layer         0.05          True           1342             1442          1542                 1642     loss          0.508216          0.271824        0.214177     0.760922       5.270135        6.579774             -0.284764                       0.750                     15.088063 0.481707  7.790421   9.880811         0.066500               0.568993                14.908349 biological_age       0.760922  0.481707        0.279215                       0.7             0.3                        0.5 mixed_or_intermediate
+2026-06-23T10:33:09 number_of_features_batch_count_grid               set_a_easy_non_lab                                                             Easy non-lab indicators: BMI, systolic blood pressure, smoking, and drinking. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula              4                 2             2            2                256                 1000     300         128 (512, 512, 256)    layer         0.05          True           1334             1434          1534                 1634     loss          1.831136          0.234518        0.211051     0.691663       5.810597        7.135116             -0.958660                       0.650                     13.787949 0.414713  7.968696  10.039666        -0.329297               0.529752                14.605550 biological_age       0.691663  0.414713        0.276950                       0.7             0.3                        0.5 mixed_or_intermediate
+2026-06-23T10:35:18 number_of_features_batch_count_grid          set_b_non_lab_diagnosis Current non-lab diagnosis-expanded set: BMI, systolic blood pressure, smoking, drinking, hypertension, diabetes, CVD, arthritis, and KOA. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula              9                 2             7            2                256                 1000     300         128 (512, 512, 256)    layer         0.05          True           1337             1437          1537                 1637     loss          1.284158          0.170130        0.132194     0.682394       5.988562        7.562337              0.677804                       0.570                     12.022563 0.424752  9.195385  11.605195         0.355188               0.389836                11.924509 biological_age       0.682394  0.424752        0.257642                       0.7             0.3                        0.5 mixed_or_intermediate
+2026-06-23T10:38:48 number_of_features_batch_count_grid set_c_extended_non_lab_diagnosis                                                                       Extended non-lab diagnosis set: Set B plus dyslipidemia and cancer. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula             11                 2             9            8               1024                 1000     200         128 (512, 512, 256)    layer         0.05          True           1341             1441          1541                 1641     loss          0.693506          0.210903        0.171749     0.711721       5.750922        7.009120             -0.048910                       0.622                     12.824270 0.475999  8.057042  10.189722         0.104180               0.489546                12.853412 biological_age       0.711721  0.475999        0.235722                       0.7             0.3                        0.5 mixed_or_intermediate
+2026-06-23T10:43:28 number_of_features_batch_count_grid               set_d_lab_enriched      Lab-enriched set: extended non-lab diagnoses plus platelet count, CRP, HbA1c, creatinine, BUN, total cholesterol, and triglycerides. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula             18                 9             9           32               4096                 1000     120         128 (512, 512, 256)    layer         0.05          True           1345             1445          1545                 1645     loss          0.401923          0.103833        0.082970     0.847463       4.252247        5.487654             -0.172319                       0.586                      8.321108 0.613157  6.635886   8.479429        -0.299055               0.393374                 8.308789 biological_age       0.847463  0.613157        0.234305                       0.7             0.3                        0.5       acceptable_real
+2026-06-23T10:40:53 number_of_features_batch_count_grid               set_d_lab_enriched      Lab-enriched set: extended non-lab diagnoses plus platelet count, CRP, HbA1c, creatinine, BUN, total cholesterol, and triglycerides. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula             18                 9             9            2                256                 1000     300         128 (512, 512, 256)    layer         0.05          True           1343             1443          1543                 1643     loss          1.439620          0.036502        0.029880     0.799035       4.847801        6.113611              0.092458                       0.302                      4.333705 0.574182  7.315497   9.192202         0.381331               0.228048                 5.421706 biological_age       0.799035  0.574182        0.224853                       0.7             0.3                        0.5       acceptable_real
+2026-06-23T10:41:47 number_of_features_batch_count_grid               set_d_lab_enriched      Lab-enriched set: extended non-lab diagnoses plus platelet count, CRP, HbA1c, creatinine, BUN, total cholesterol, and triglycerides. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula             18                 9             9            8               1024                 1000     200         128 (512, 512, 256)    layer         0.05          True           1344             1444          1544                 1644     loss          0.646670          0.052791        0.043324     0.809896       4.982544        6.257324             -0.148123                       0.354                      5.289669 0.595966  6.908042   8.814566        -0.283071               0.267289                 5.602307 biological_age       0.809896  0.595966        0.213929                       0.7             0.3                        0.5       acceptable_real
+```
+
+## 7. Parameters With Good Synthetic Recovery But Poor Real Recovery
+No rows available.
+
+## 8. Parameters With Poor Synthetic And Poor Real Recovery
+No rows available.
+
+## 9. Parameters With Acceptable Real Recovery
+```text
+          timestamp                       approach_name        feature_set                                                                                                              feature_set_description                          simulator_variant  model_version                                 model_family  feature_count  continuous_count  binary_count  batch_count  num_training_sims  num_validation_sims  epochs  batch_size      mlp_widths mlp_norm  mlp_dropout  mlp_residual  training_seed  validation_seed  network_seed  synthetic_eval_seed loss_key  first_train_loss  final_train_loss  min_train_loss  synthetic_r  synthetic_mae  synthetic_rmse  synthetic_mean_error  synthetic_q10_q90_coverage  synthetic_mean_q10_q90_width   real_r  real_mae  real_rmse  real_mean_error  real_q10_q90_coverage  real_mean_q10_q90_width      parameter  synthetic_r_j  real_r_j  recovery_gap_j  good_synthetic_threshold  poor_threshold  acceptable_real_threshold recovery_category
+2026-06-23T10:43:28 number_of_features_batch_count_grid set_d_lab_enriched Lab-enriched set: extended non-lab diagnoses plus platelet count, CRP, HbA1c, creatinine, BUN, total cholesterol, and triglycerides. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula             18                 9             9           32               4096                 1000     120         128 (512, 512, 256)    layer         0.05          True           1345             1445          1545                 1645     loss          0.401923          0.103833        0.082970     0.847463       4.252247        5.487654             -0.172319                       0.586                      8.321108 0.613157  6.635886   8.479429        -0.299055               0.393374                 8.308789 biological_age       0.847463  0.613157        0.234305                       0.7             0.3                        0.5   acceptable_real
+2026-06-23T10:40:53 number_of_features_batch_count_grid set_d_lab_enriched Lab-enriched set: extended non-lab diagnoses plus platelet count, CRP, HbA1c, creatinine, BUN, total cholesterol, and triglycerides. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula             18                 9             9            2                256                 1000     300         128 (512, 512, 256)    layer         0.05          True           1343             1443          1543                 1643     loss          1.439620          0.036502        0.029880     0.799035       4.847801        6.113611              0.092458                       0.302                      4.333705 0.574182  7.315497   9.192202         0.381331               0.228048                 5.421706 biological_age       0.799035  0.574182        0.224853                       0.7             0.3                        0.5   acceptable_real
+2026-06-23T10:41:47 number_of_features_batch_count_grid set_d_lab_enriched Lab-enriched set: extended non-lab diagnoses plus platelet count, CRP, HbA1c, creatinine, BUN, total cholesterol, and triglycerides. copula_residual_noise_0_5_latent_noise_0_5              2 sequential_conditionals_with_gaussian_copula             18                 9             9            8               1024                 1000     200         128 (512, 512, 256)    layer         0.05          True           1344             1444          1544                 1644     loss          0.646670          0.052791        0.043324     0.809896       4.982544        6.257324             -0.148123                       0.354                      5.289669 0.595966  6.908042   8.814566        -0.283071               0.267289                 5.602307 biological_age       0.809896  0.595966        0.213929                       0.7             0.3                        0.5   acceptable_real
+```
+
+## 10. Cross-Feature-Set Interpretation
+
+Use `domain_classifier_auc_vs_feature_set.png`, `recovery_vs_feature_set.png`, and `recovery_gap_vs_feature_set.png` together. A high domain AUC with high synthetic recovery and low real recovery is evidence for simulator-real mismatch. Low synthetic and real recovery suggests weak identifiability from the selected features.
+
+## 11. Recommended Next Actions
+
+- Inspect feature sets with high domain classifier AUC first.
+- Prioritize simulator calibration for features with large standardized mean differences and high classifier importance.
+- If recovery results are unavailable, run notebook `02_feature_set_data_diagnostics.ipynb` first and rerun this notebook.
+- If synthetic and real are hard to distinguish but real recovery remains poor, investigate label noise, weak feature identifiability, or model capacity rather than feature-domain mismatch.

@@ -1,0 +1,12 @@
+{
+  "n_non_missing":15545.0,
+  "empirical_min":33.6034394644,
+  "empirical_max":86.9679187896,
+  "q01":40.1586760096,
+  "q05":43.8479410664,
+  "median":57.7935389016,
+  "q95":76.0646155915,
+  "q99":82.8048714415,
+  "recommended_uniform_min":40.0,
+  "recommended_uniform_max":83.0
+}

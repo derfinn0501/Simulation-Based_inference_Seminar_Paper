@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "tracking_uri": "http://192.168.178.25:5000",
+  "experiment_name": "seminar-bioage-sbi",
+  "run_name": "bioage-code-reading",
+  "project": "2026-seminar",
+  "tags": {
+    "project": "2026-seminar",
+    "topic": "biological-age-sbi",
+    "workflow": "bioage-code-understanding",
+    "objective": "Understand and validate the biological-age BayesFlow workflow stepwise"
+  }
+}
