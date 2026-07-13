@@ -11,6 +11,11 @@ prior over biological age
 -> recovery, calibration, and posterior predictive checks
 ```
 
+Notebook `04_bioage_posterior_diagnostics.ipynb` is the estimator-agnostic
+diagnostic stage. It consumes a documented held-out evaluation artifact rather
+than training a model, and reports point recovery, quantile calibration,
+informativeness relative to the prior, and optional posterior-predictive checks.
+
 ## Folders
 
 - `src/bioage_sbi/`: reusable Python code for the simulator, adapters, training, and diagnostics.

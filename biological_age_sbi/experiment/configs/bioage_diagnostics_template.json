@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "variant": "diagnostic_template",
+  "description": "Template for held-out synthetic recovery, quantile calibration, informativeness, and posterior-predictive diagnostics.",
+  "simulator_config": {
+    "name": "copula_empirical_residuals_sbp_bmi_0_5_sbp_agebin_mean_0_5",
+    "model_name": "set_e_kdm8_common_lab",
+    "empirical_model_path": "biological_age_sbi/experiment/data/processed/empirical_bioage_model_set_e_kdm8_common_lab.json",
+    "prior": {
+      "source": "empirical_model"
+    },
+    "bioindicator_model": {
+      "dependence_model": "conditional_gaussian_copula",
+      "copula_enabled": true,
+      "direct_age_effect_scale": 1.0,
+      "latent_age_effect_scale": 1.0,
+      "latent_loading_scale": 1.0,
+      "continuous_residual_noise_scale": 1.0,
+      "continuous_empirical_residual_bootstrap": true,
+      "sbp_bmi_effect_scale": 0.5,
+      "sbp_age_bin_mean_correction": true,
+      "sbp_age_bin_mean_correction_scale": 0.5
+    },
+    "observation_model": {
+      "observation_noise_scale": 1.0
+    },
+    "feature_set": "set_e_kdm8_common_lab",
+    "seed": 1234
+  },
+  "network_config": {
+    "name": "quantile_mlp_512_512_256",
+    "type": "ScoringRuleNetwork",
+    "subnet": "mlp",
+    "widths": [512, 512, 256],
+    "norm": "layer",
+    "dropout": 0.0,
+    "residual": true,
+    "outputs": {
+      "mean": true,
+      "quantile_levels": [0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95]
+    }
+  },
+  "training_config": {
+    "status": "replace_with_trained_run",
+    "checkpoint_path": null,
+    "num_simulations": null,
+    "batch_size": null,
+    "epochs": null,
+    "learning_rate": null,
+    "training_seed": 1236,
+    "network_seed": 1238
+  },
+  "evaluation_config": {
+    "artifact_path": "biological_age_sbi/experiment/results/posterior_diagnostics/diagnostic_template/evaluation_arrays.npz",
+    "result_dir": "biological_age_sbi/experiment/results/posterior_diagnostics/diagnostic_template",
+    "num_calibration_cases": 500,
+    "calibration_seed": 1239,
+    "pointwise_confidence": 0.99,
+    "interval_levels": [0.5, 0.8, 0.9],
+    "age_bins": [20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
+    "num_posterior_predictive_samples": 200,
+    "num_posterior_predictive_cases": 100,
+    "posterior_predictive_seed": 1240
+  }
+}

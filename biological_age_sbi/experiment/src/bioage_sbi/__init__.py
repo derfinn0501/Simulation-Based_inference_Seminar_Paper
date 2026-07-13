@@ -20,8 +20,26 @@ from .data import (
     prepare_model_frame,
     split_train_holdout,
 )
+from .diagnostics import (
+    age_binned_diagnostics,
+    binary_predictive_metrics,
+    continuous_predictive_metrics,
+    interval_diagnostics,
+    point_accuracy_metrics,
+    quantile_calibration_table,
+    quantile_crossing_rate,
+    sample_from_quantile_grid,
+    validate_quantile_predictions,
+)
 from .empirical_model import fit_empirical_model, load_empirical_model, save_empirical_model
 from .simulator import make_bayesflow_simulator, make_component_functions, sample_component_model
+from .variant_experiment import (
+    apply_variant_config,
+    evaluate_variant_artifact,
+    load_variant_config,
+    load_variant_results,
+    run_diagnostic_variant,
+)
 
 __all__ = [
     "BINARY_MODEL_COLUMNS",
@@ -46,4 +64,18 @@ __all__ = [
     "sample_component_model",
     "save_empirical_model",
     "split_train_holdout",
+    "age_binned_diagnostics",
+    "binary_predictive_metrics",
+    "continuous_predictive_metrics",
+    "interval_diagnostics",
+    "point_accuracy_metrics",
+    "quantile_calibration_table",
+    "quantile_crossing_rate",
+    "sample_from_quantile_grid",
+    "validate_quantile_predictions",
+    "apply_variant_config",
+    "evaluate_variant_artifact",
+    "load_variant_config",
+    "load_variant_results",
+    "run_diagnostic_variant",
 ]

@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "variant": "01_simple_mendeley",
+  "description": "Simple Mendeley-only empirical simulator: sequential fitted conditionals with Gaussian residuals, without latent factors, copula, or continuous residual calibration.",
+  "simulator_config": {
+    "name": "simple_gaussian_conditionals_mendeley",
+    "data_source": {
+      "name": "mendeley_kdm8",
+      "train_path": "biological_age_sbi/experiment/data/processed/mendeley_train_set_d_lab_enriched.csv",
+      "holdout_path": "biological_age_sbi/experiment/data/processed/mendeley_holdout_set_d_lab_enriched.csv"
+    },
+    "model_name": "set_d_lab_enriched",
+    "empirical_model_path": "biological_age_sbi/experiment/data/processed/empirical_bioage_model_set_d_lab_enriched.json",
+    "prior": {
+      "source": "empirical_model"
+    },
+    "bioindicator_model": {
+      "conditional_structure": "sequential_fitted_conditionals",
+      "continuous_residual_distribution": "gaussian",
+      "copula_enabled": false,
+      "latent_factors_enabled": false,
+      "continuous_calibration_enabled": false,
+      "continuous_residual_noise_scale": 1.0,
+      "latent_std_scale": 1.0
+    },
+    "observation_model": {
+      "continuous_noise_scale": 1.0,
+      "binary_flip_probability": 0.0
+    },
+    "feature_set": "set_d_lab_enriched",
+    "seed": 1234
+  },
+  "network_config": {
+    "name": "quantile_mlp_512_512_256",
+    "type": "ScoringRuleNetwork",
+    "subnet": "mlp",
+    "widths": [
+      512,
+      512,
+      256
+    ],
+    "norm": "layer",
+    "dropout": 0.05,
+    "residual": true,
+    "outputs": {
+      "mean": true,
+      "quantile_levels": [
+        0.05,
+        0.1,
+        0.25,
+        0.5,
+        0.75,
+        0.9,
+        0.95
+      ]
+    }
+  },
+  "training_config": {
+    "status": "completed",
+    "checkpoint_path": "biological_age_sbi/experiment/checkpoints/diagnostic_variants/01_simple_mendeley.keras",
+    "num_simulations": 32768,
+    "num_validation_simulations": 2048,
+    "batch_size": 128,
+    "epochs": 40,
+    "optimizer": "bayesflow_default",
+    "training_seed": 1236,
+    "validation_seed": 1237,
+    "network_seed": 1238
+  },
+  "evaluation_config": {
+    "artifact_path": "biological_age_sbi/experiment/results/posterior_diagnostics/01_simple_mendeley/evaluation_arrays.npz",
+    "result_dir": "biological_age_sbi/experiment/results/posterior_diagnostics/01_simple_mendeley",
+    "num_calibration_cases": 2000,
+    "calibration_seed": 1239,
+    "pointwise_confidence": 0.99,
+    "interval_levels": [
+      0.5,
+      0.8,
+      0.9
+    ],
+    "age_bins": [
+      20,
+      30,
+      40,
+      50,
+      60,
+      70,
+      80,
+      90,
+      100,
+      110,
+      120
+    ],
+    "num_posterior_predictive_samples": 200,
+    "num_posterior_predictive_cases": 100,
+    "posterior_predictive_seed": 1240
+  }
+}

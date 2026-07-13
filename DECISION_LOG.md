@@ -1,5 +1,22 @@
 # Decision Log
 
+## 2026-07-13 - Separate biological-age posterior diagnostics from training
+
+- Add notebook `04_bioage_posterior_diagnostics.ipynb` as an estimator-agnostic diagnostic stage operating on an independent held-out synthetic evaluation artifact.
+- Organize the first toy diagnostic flow around point-estimate accuracy, posterior calibration, informativeness relative to the prior, and posterior predictive adequacy.
+- Store reusable metric calculations in `src/bioage_sbi/diagnostics.py` and keep plotting and interpretation in the notebook.
+- Record simulator, network, training, and evaluation settings separately for each variant. Do not treat the current two-batch overfit checkpoint as a scientific baseline.
+
+## 2026-07-13 - Biological-age diagnostic development variants
+
+- Compare four staged simulator configurations: simple Mendeley, advanced Mendeley, advanced reduced-noise Mendeley, and advanced reduced-noise Mendeley+NHANES.
+- Define the simple structure as sequential fitted conditionals with Gaussian residuals and without latent factors, copula, or continuous residual calibration.
+- Define the advanced structure as the same fitted conditionals plus latent risk factors and a conditional Gaussian copula. Keep Gaussian residuals for this comparison so the residual-noise multiplier is effective and interpretable.
+- Define reduced noise as `0.5` times continuous bioindicator residual standard deviations and `0.5` times latent-factor standard deviations; keep observation noise nominal.
+- Hold the network, training budget, quantile levels, and diagnostic budget fixed. Note that the combined-data variant uses common Set E rather than Mendeley Set D because NHANES has no comparable KOA variable.
+- Run all four configs through one reusable runner from notebook `04`, saving a common evaluation artifact and side-by-side plots. Reuse completed artifacts by default; use the explicitly redirected `/tmp` smoke mode only for quick workflow checks.
+- Keep raw network quantiles for calibration and crossing diagnostics. If crossings occur, use row-wise monotone rearrangement only for the approximate quantile-to-sample bridge required by posterior-predictive checks.
+
 ## 2026-06-19 - Biological-age simulator refactor
 
 - Use Mendeley non-lab Set B variables for the first empirical simulator: BMI, systolic blood pressure, smoking, drinking, hypertension, diabetes, CVD, arthritis, and KOA.
